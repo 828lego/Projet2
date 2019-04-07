@@ -8,8 +8,8 @@ enum Etat {sain, immunise, malade, mort}; //états possibles des individus
 int nombre_jours; //nombre de jours de la simulation
 int nombre_malade; //nombre de malade initial
 double lambda = 0.2; //probabilité de tomber malade
-double beta = 0.95; //probabilité de mourir
-double gama = 0.95; //probabilité d'être immunisé
+double beta = 0.85; //probabilité de mourir
+double gama = 0.999; //probabilité d'être immunisé
 
 //création d'une liste chainee des liens entre les individus
 typedef struct _element{
@@ -45,13 +45,13 @@ void creation_txt(int n,const char* nom_graphe) {
     //creation des arretes lignes:
     for (int i = 0; i < n; i++){
         for (int j = 0; j < n-1; j++){
-            fprintf(fp, "%d %d \n", i*n +j, i*n +j+1);
+            fprintf(fp, "%d %d \n", i*n+j, i*n+j+1);
         }
     }
     //creation des arretes colones:
     for (int i = 0; i < n-1; i++){
         for (int j = 0; j < n; j++){
-            fprintf(fp, "%d %d\n", i*n +j, i*n +j+n);
+            fprintf(fp, "%d %d\n", i*n+j, i*n+j+n);
         }
     }
     fclose(fp);
@@ -198,6 +198,11 @@ void jour_initial(Graph *G) {
     printf("\n");
 }
 
+//affiche la legende du graphe
+void legende() {
+    printf("\nsain: '.', malade: 'x', immunise: 'o', mort: ' '");
+}
+
 int main() {
     srand(time(NULL)); // permet d'avoir tout le temps des nombres aléatoires
     //creation_txt(20,"test3.txt");
@@ -215,6 +220,7 @@ int main() {
         afficher_etat(&G);
         printf("\n");
     }
+    legende();
     //afficher_graphe(&G);
     return 0;
 }
